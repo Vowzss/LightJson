@@ -7,20 +7,14 @@ namespace LightJson
 {
 	void JsonWriter::Create(const std::string& p_FileName) {
 		if (std::filesystem::exists(p_FileName)) {
+			jsonName = p_FileName;
 			std::cout << "Json file detected, aborting!" << std::endl;
 			jsonExist = true;
 		}
 		else {
-			std::cout << "Json file not detected, creating..." << std::endl;
+			jsonName = "undifined";
+			std::cout << "Json file not detected..." << std::endl;
 			jsonExist = false;
-		}
-
-		if (!jsonExist) {
-			std::ofstream outfile(p_FileName);
-			outfile.close();
-
-			std::cout << "Json file created!" << std::endl;
-			jsonExist = true;
 		}
 	}
 
@@ -36,11 +30,17 @@ namespace LightJson
 		}
 	}
 
-	void JsonWriter::Open(const std::string& p_FileName) {
-		json.open(p_FileName);
+	void JsonWriter::Open() {
+		if (jsonName == "undifined" || "") return;
+
+		std::cout << "Openning json file..." << std::endl;
+		json.open(jsonName);
 	}
 
 	void JsonWriter::Close() {
+		if (jsonName == "undifined" || "") return;
+
+		std::cout << "Closing json file..." << std::endl;
 		json.close();
 	}
 }

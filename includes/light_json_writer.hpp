@@ -13,11 +13,13 @@ namespace LightJson
 		void Create(const std::string& p_FileName);
 		void Delete();
 
-		void Open(const std::string& p_FileName);
+		void Open();
 		void Close();
 
 	private:
-		static std::ofstream json;
-		static bool jsonExist;
+		std::ofstream json;
+		bool jsonExist;
+
+		std::string jsonName;
 	};
 }
