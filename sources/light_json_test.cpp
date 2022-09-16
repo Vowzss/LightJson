@@ -2,12 +2,17 @@
 #include "includes/light_json_writer.hpp"
 
 int main() {
-	LightJson::JsonWriter jsonWriter;
+	LightJson::JsonWriter testJsonWriter;
 
-	jsonWriter.Create("test.json");
-	jsonWriter.Open();
+	testJsonWriter.Create("test.json");
+	testJsonWriter.Open("test.json");
+	testJsonWriter.Close("test.json");
+	testJsonWriter.Delete();
 
-	jsonWriter.Close();
+	testJsonWriter.Create("ez.json");
+	testJsonWriter.Open();
+	testJsonWriter.Close();
+	testJsonWriter.Delete();
 
 	LightJson::JsonReader jsonReader;
 

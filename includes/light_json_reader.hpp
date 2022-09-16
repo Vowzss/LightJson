@@ -14,6 +14,6 @@ namespace LightJson
 		void Close();
 
 	private:
-		static std::ifstream json;
+		std::ifstream json;
 	};
 }
