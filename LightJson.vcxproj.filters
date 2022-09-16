@@ -10,12 +10,18 @@
     <ClCompile Include="sources\light_json_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Json.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\light_json_writer.hpp">
       <Filter>includes</Filter>
     </ClInclude>
     <ClInclude Include="includes\light_json_reader.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\json.hpp">
       <Filter>includes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,82 +4,101 @@
 #include <filesystem>
 #include <cstdio>
 
+#define LOGGER "[JsonWriter] "
+
 namespace LightJson
 {
-	std::vector<std::string> JsonWriter::fileNames = {};
+	std::vector<Json> JsonWriter::jsons = {};
+
+	JsonWriter::JsonWriter(const std::string& p_Name) {
+		json = Json(p_Name);
+	}
+
+	void JsonWriter::setLogger() {
+		logger = !logger;
+	}
 
 	void JsonWriter::Create(const std::string& p_FileName) {
-		fileName = p_FileName;
-		fileNames.emplace_back(fileName);
+		json.object.name = p_FileName;
+		jsons.emplace_back(json);
 
-		if (!Check(p_FileName)) {
-			std::cout << "Creating \"" << p_FileName << "\" ..." << std::endl;
+		if (!Check(p_FileName, logger)) {
+			if (logger) std::cout << LOGGER << "Creating \"" << p_FileName << "\" ..." << std::endl;
 			std::ofstream outfile(p_FileName);
 			outfile.close();
 		}
 	}
 
-	void JsonWriter::Serialize() {
+	/*void JsonWriter::Serialize() {
 		if (!json.is_open()) {
-			std::cout << "File cannot be serialized, Make sure it is openned beforehand!" << std::endl;
+			std::cout << LOGGER << "File cannot be serialized, Make sure it is openned beforehand!" << std::endl;
 			return;
 		}
-	}
+	}*/
 
 	void JsonWriter::Open(const std::string& p_FileName) {
-		std::cout << "Openning \"" << p_FileName << "\"..." << std::endl;
-		json.open(p_FileName);
+		if (Check(p_FileName, false)) {
+			if (logger) std::cout << LOGGER << "Openning \"" << p_FileName << "\"..." << std::endl;
+			json.object.file.open(p_FileName);
+		}
 	}
 	void JsonWriter::Close(const std::string& p_FileName) {
-		std::cout << "Closing \"" << p_FileName << "\"..." << std::endl;
-		json.close();
+		if (Check(p_FileName, false)) {
+			if (logger) std::cout << LOGGER << "Closing \"" << p_FileName << "\"..." << std::endl;
+			json.object.file.close();
+		}
 	}
 	void JsonWriter::Delete(const std::string& p_FileName) {
-		std::cout << "Deleting \"" << p_FileName << "\"..." << std::endl;
-		json.flush();
-		json.close();
+		if (Check(p_FileName, false)) {
+			if (logger) std::cout << LOGGER << "Deleting \"" << p_FileName << "\"..." << std::endl;
+			json.object.file.flush();
+			json.object.file.close();
 
-		std::remove(p_FileName.c_str());
+			std::remove(p_FileName.c_str());
+		}
 	}
-	bool JsonWriter::Check(const std::string& p_FileName) {
-		std::cout << "Checking \"" << p_FileName << "\" ..." << std::endl;
+	bool JsonWriter::Check(const std::string& p_FileName, const bool& p_log) {
+		if(p_log) std::cout << LOGGER << "Checking \"" << p_FileName << "\"..." << std::endl;
 		std::ifstream f(p_FileName.c_str());
 
 		if (f.good()) {
-			std::cout << "\"" << p_FileName << "\" already exist!" << std::endl;
+			if (p_log) std::cout << LOGGER << "\"" << p_FileName << "\" already exist!" << std::endl;
 			return true;
 		}
 		else {
-			std::cout << "\"" << p_FileName << "\" doesn't exist..." << std::endl;
+			if (p_log) std::cout << LOGGER << "\"" << p_FileName << "\" doesn't exist..." << std::endl;
 			return false;
 		}
 	}
 
 	void JsonWriter::Open() {
-		std::cout << "Openning \"" << fileName << "\"..." << std::endl;
-		json.open(fileName);
+		if (Check(json.object.name, false)) {
+			if (logger) std::cout << LOGGER << "Openning \"" << json.object.name << "\"..." << std::endl;
+			json.object.file.open(json.object.name);
+		}
 	}
 	void JsonWriter::Close() {
-		std::cout << "Closing \"" << fileName << "\"..." << std::endl;
-		json.close();
+		if (Check(json.object.name, false)) {
+			json.object.file.close();
+		}
 	}
 	void JsonWriter::Delete() {
-		std::cout << "Deleting \"" << fileName << "\"..." << std::endl;
-		json.flush();
-		json.close();
+		if (logger) std::cout << LOGGER << "Deleting \"" << json.object.name << "\"..." << std::endl;
+		json.object.file.flush();
+		json.object.file.close();
 
-		std::remove(fileName.c_str());
+		std::remove(json.object.name.c_str());
 	}
-	bool JsonWriter::Check() {
-		std::cout << "Checking \"" << fileName << "\" ..." << std::endl;
-		std::ifstream f(fileName.c_str());
+	bool JsonWriter::Check(const bool& p_log) {
+		if (p_log) std::cout << "Checking \"" << json.object.name << "\" ..." << std::endl;
+		std::ifstream f(json.object.name.c_str());
 
 		if (f.good()) {
-			std::cout << "\"" << fileName << "\" already exist!" << std::endl;
+			if (p_log) std::cout << LOGGER << "\"" << json.object.name << "\" already exist!" << std::endl;
 			return true;
 		}
 		else {
-			std::cout << "\"" << fileName << "\" not detected..." << std::endl;
+			if (p_log) std::cout << LOGGER << "\"" << json.object.name << "\" not detected..." << std::endl;
 			return false;
 		}
 	}
