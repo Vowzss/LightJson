@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\Json.cpp" />
-    <ClCompile Include="sources\light_json_test.cpp" />
-    <ClCompile Include="sources\light_json_writer.cpp" />
-    <ClCompile Include="sources\light_json_reader.cpp" />
+    <ClCompile Include="Sources\Json.cpp" />
+    <ClCompile Include="Sources\light_json_test.cpp" />
+    <ClCompile Include="Sources\light_json_writer.cpp" />
+    <ClCompile Include="Sources\light_json_reader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes\json.hpp" />
-    <ClInclude Include="includes\light_json_reader.hpp" />
-    <ClInclude Include="includes\light_json_writer.hpp" />
+    <ClInclude Include="Includes\json.hpp" />
+    <ClInclude Include="Includes\light_json_reader.hpp" />
+    <ClInclude Include="Includes\light_json_writer.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

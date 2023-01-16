@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="sources\light_json_writer.cpp">
-      <Filter>sources</Filter>
+    <ClCompile Include="Sources\light_json_writer.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\light_json_reader.cpp">
-      <Filter>sources</Filter>
+    <ClCompile Include="Sources\light_json_reader.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\light_json_test.cpp">
-      <Filter>sources</Filter>
+    <ClCompile Include="Sources\light_json_test.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\Json.cpp">
-      <Filter>sources</Filter>
+    <ClCompile Include="Sources\Json.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes\light_json_writer.hpp">
-      <Filter>includes</Filter>
+    <ClInclude Include="Includes\light_json_writer.hpp">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="includes\light_json_reader.hpp">
-      <Filter>includes</Filter>
+    <ClInclude Include="Includes\light_json_reader.hpp">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="includes\json.hpp">
-      <Filter>includes</Filter>
+    <ClInclude Include="Includes\json.hpp">
+      <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="includes">
+    <Filter Include="Includes">
       <UniqueIdentifier>{c8e8c0e6-6c29-4722-a196-c60bcae80fe3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sources">
+    <Filter Include="Sources">
       <UniqueIdentifier>{a6649711-be0d-4d78-83bb-9d92deab9ebb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
