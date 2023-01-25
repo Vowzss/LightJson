@@ -1,27 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Sources\light_json_writer.cpp">
+    <ClCompile Include="Sources\Types\JsonArray.cpp">
+      <Filter>Sources\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Types\JsonElement.cpp">
+      <Filter>Sources\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Types\JsonObject.cpp">
+      <Filter>Sources\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\JsonReader.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\light_json_reader.cpp">
+    <ClCompile Include="Sources\JsonWriter.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\light_json_test.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Json.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="Samples\MainSample.cpp">
+      <Filter>Samples</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Includes\light_json_writer.hpp">
+    <ClInclude Include="Includes\JsonReader.hpp">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\light_json_reader.hpp">
-      <Filter>Includes</Filter>
+    <ClInclude Include="Includes\Types\JsonObject.h">
+      <Filter>Includes\Types</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\json.hpp">
+    <ClInclude Include="Includes\Types\JsonArray.h">
+      <Filter>Includes\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Types\JsonElement.h">
+      <Filter>Includes\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonWriter.hpp">
       <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -31,6 +43,15 @@
     </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{a6649711-be0d-4d78-83bb-9d92deab9ebb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Types">
+      <UniqueIdentifier>{643721a1-57fd-42e3-9e49-7a4384ebda5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\Types">
+      <UniqueIdentifier>{efb41f5d-43e9-4b6a-882d-4da09acd0137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Samples">
+      <UniqueIdentifier>{aab2032e-7726-4ae3-9d3a-5d232bd2632a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "includes/json.hpp"
-#include <vector>
+#include <string>
 
 namespace LightJson
 {
@@ -26,9 +25,6 @@ namespace LightJson
 		void Delete();
 
 	private:
-		Json json;
-
 		bool logger = false;
-		static std::vector<Json> jsons;
 	};
 }

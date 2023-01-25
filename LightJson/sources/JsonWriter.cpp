@@ -1,4 +1,4 @@
-#include "includes/light_json_writer.hpp"
+#include "includes/JsonWriter.hpp"
 
 #include <iostream>
 #include <filesystem>
@@ -8,7 +8,7 @@
 
 namespace LightJson
 {
-	std::vector<Json> JsonWriter::jsons = {};
+	/*std::vector<Json> JsonWriter::jsons = {};
 
 	JsonWriter::JsonWriter(const std::string& p_Name) {
 		json = Json(p_Name);
@@ -34,7 +34,7 @@ namespace LightJson
 			std::cout << LOGGER << "File cannot be serialized, Make sure it is openned beforehand!" << std::endl;
 			return;
 		}
-	}*/
+	}
 
 	void JsonWriter::Open(const std::string& p_FileName) {
 		if (Check(p_FileName, false)) {
@@ -101,5 +101,5 @@ namespace LightJson
 			if (p_log) std::cout << LOGGER << "\"" << json.object.name << "\" not detected..." << std::endl;
 			return false;
 		}
-	}
+	}*/
 }

@@ -10,10 +10,10 @@ namespace LightJson
 	public:
 		void Deserialize();
 
-		void Open(const std::string& p_FileName);
+		void Open(const std::string& pFileName);
 		void Close();
 
 	private:
-		std::ifstream json;
+		std::ifstream file;
 	};
 }
