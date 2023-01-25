@@ -1,7 +1,9 @@
 #pragma once
 
-#include <fstream>
+#include <sstream>
 #include <string>
+
+#include "Types/JsonArray.h"
 
 namespace LightJson
 {
@@ -12,8 +14,11 @@ namespace LightJson
 
 		void Open(const std::string& pFileName);
 		void Close();
-
 	private:
-		std::ifstream file;
+		JsonArray HandleArray(const std::string& arrayName, int& currentLine);
+		
+	private:
+		std::stringstream content;
+		bool isInUse = false;
 	};
 }

@@ -1,32 +1,78 @@
 #include "includes/JsonReader.hpp"
 
 #include <iostream>
+#include <fstream>
 
-namespace LightJson {
-	void JsonReader::Deserialize() {
-		if (!file.is_open()) {
-			std::cout << "File cannot be deserialized, Make sure it is opened beforehand!" << std::endl;
-			return;
-		}
+#include "Includes/JsonUtils.h"
+#include "Includes/StringUtils.h"
 
-		std::string line;
-		while (file) {
-			std::getline(file, line);
-			std::cout << line << ": " << file.tellg() << '\n';
-		}
-	}
+namespace LightJson
+{
+    void JsonReader::Deserialize()
+    {
+        if (content.str().empty())
+        {
+            std::cout << "File cannot be deserialized, Make sure it is opened beforehand!" << std::endl;
+            return;
+        }
 
-	void JsonReader::Open(const std::string& pFileName) {
-		if(file.is_open())
-		{
-			std::cout << "You cannot open another file while one is already opened!" << std::endl;
-			std::cout << "You can either create a new JsonReader instance or close previous file!" << std::endl;
-			return;
-		}
-		file.open(pFileName);
-	}
+        std::string line;
+        int currentLine = 0;
+        while (std::getline(content, line))
+        {
+            if (StringUtils::Contains(line, ": ["))
+            {
+                HandleArray(StringUtils::Strip(line, ": ["), currentLine);
+            }
+            currentLine++;
+        }
+    }
 
-	void JsonReader::Close() {
-		file.close();
-	}
+    void JsonReader::Open(const std::string& pFileName)
+    {
+        if (isInUse)
+        {
+            std::cout << "You opened another file without closing the previous one..." << std::endl;
+            std::cout << "Previous file content is begin replaced by new one!" << std::endl;
+        }
+
+        isInUse = true;
+        std::fstream fs(pFileName, std::ios_base::in);
+        content << fs.rdbuf();
+        fs.close();
+    }
+
+    void JsonReader::Close()
+    {
+        content.clear();
+        isInUse = false;
+    }
+
+    JsonArray JsonReader::HandleArray(const std::string& arrayName, int& pCurrentLine)
+    {
+        JsonArray jsonArray = JsonArray(JsonUtils::StripKey(arrayName));
+
+        std::string line;
+        while (std::getline(content, line))
+        {
+            jsonArray.AddValue(JsonElement(JsonUtils::StripKey(line)));
+
+            if (StringUtils::Contains(line, "],"))
+            {
+                pCurrentLine++;
+                break;
+            }
+
+            if (StringUtils::Contains(line, "{"))
+            {
+            }
+            else if (StringUtils::Contains(line, "},"))
+            {
+            }
+
+            pCurrentLine++;
+        }
+
+        return jsonArray;
+    }
 }

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Includes\JsonUtils.cpp" />
+    <ClCompile Include="Includes\StringUtils.cpp" />
     <ClCompile Include="Samples\MainSample.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -244,7 +246,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\JsonReader.hpp" />
+    <ClInclude Include="Includes\JsonUtils.h" />
     <ClInclude Include="Includes\JsonWriter.hpp" />
+    <ClInclude Include="Includes\StringUtils.h" />
     <ClInclude Include="Includes\Types\JsonArray.h" />
     <ClInclude Include="Includes\Types\JsonElement.h" />
     <ClInclude Include="Includes\Types\JsonObject.h" />
