@@ -1,110 +1,101 @@
-#pragma once
-
-#include "JsonType.hpp"
+﻿#pragma once
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
 
-#include "JsonValue.h"
+#include "JsonType.hpp"
 
-class JsonElement : public JsonValue {
-private:
-    JsonType  type;
-    JsonValue value;
+enum class JsonType;
 
+class JsonElement {
+protected:
+    std::string key;
+    JsonType    type;
+    
 public:
-    JsonElement()                                                   : type(JsonType::Null)                              {}
-    JsonElement(std::nullptr_t)                                     : type(JsonType::Null)                              {}
-    JsonElement(std::string value)                                  : type(JsonType::String) , string(std::move(value)) {}
-    JsonElement(const double& value)                                : type(JsonType::Number) , number(value)            {}
-    JsonElement(const bool& value)                                  : type(JsonType::Boolean), boolean(value)           {}
-    JsonElement(std::vector<JsonElement> value)                     : type(JsonType::Array)  , array(std::move(value))  {}
-    JsonElement(std::unordered_map<std::string, JsonElement> value) : type(JsonType::Object) , object(std::move(value)) {}
+    JsonElement(std::string _key) : key(std::move(_key)), type(JsonType::Null) {}
+    virtual ~JsonElement() = default;
+    
+    virtual std::string                                           getAsString()  const { throw std::runtime_error("Element is not a string");  }
+    virtual double                                                getAsNumber()  const { throw std::runtime_error("Element is not a number");  }
+    virtual bool                                                  getAsBoolean() const { throw std::runtime_error("Element is not a boolean"); }
+    virtual const  std::vector<JsonElement*>&                     getAsArray()   const { throw std::runtime_error("Element is not an array");  }
+    virtual const  std::unordered_map<std::string, JsonElement*>& getAsObject()  const { throw std::runtime_error("Element is not an object"); }
+    
+    bool isOfType(const JsonType& _type) const { return type == _type; }
 
-public:
-    JsonType getType() const {
-        return type;
-    }
-
-    std::string getAsString() const {
-        if (type == JsonType::String) {
-            return string;
-        }
-        throw std::runtime_error("JSON value is not a string");
-    }
-
-    double getAsNumber() const  {
-        if (type == JsonType::Number) {
-            return number;
-        }
-        throw std::runtime_error("JSON value is not a number");
-    }
-
-    bool getAsBoolean() const  {
-        if (type == JsonType::Boolean) {
-            return boolean;
-        }
-        throw std::runtime_error("JSON value is not a boolean");
-    }
-
-    std::vector<JsonElement> getAsArray() const  {
-        if (type == JsonType::Array) {
-            return array;
-        }
-        throw std::runtime_error("JSON value is not an array");
-    }
-
-    std::unordered_map<std::string, JsonElement> getAsObject() const {
-        if (type == JsonType::Object) {
-            return object;
-        }
-        throw std::runtime_error("JSON value is not an object");
-    }
-
-    bool isNull() const {
-        return type == JsonType::Null;
-    }
-
-    bool isString() const {
-        return type == JsonType::String;
-    }
-
-    bool isNumber() const {
-        return type == JsonType::Number;
-    }
-
-    bool isBool() const {
-        return type == JsonType::Boolean;
-    }
-
-    bool isArray() const {
-        return type == JsonType::Array;
-    }
-
-    bool isObject() const {
-        return type == JsonType::Object;
-    }
-
-    bool hasKey(const std::string& key) const {
-        if (isObject()) {
-            return object.count(key) > 0;
-        }
-        throw std::runtime_error("JSON value is not an object");
-    }
-
-    JsonElement operator[](const int& index) const {
-        if (isArray()) {
-            return array.at(index);
-        }
-        throw std::runtime_error("JSON value is not an array");
-    }
-
-    JsonElement operator[](const std::string& key) const {
-        if (isObject() && object.count(key) > 0) {
-            return object.at(key);
-        }
-        throw std::runtime_error("Key not found in object: " + key);
-    }
+    JsonType    getType() const { return type; }
+    std::string getKey()  const { return key;  }
 };
+
+
+class StringElement : public JsonElement {
+private:
+    std::string value;
+    
+public:
+    explicit StringElement(std::string _key, std::string value);
+    std::string getAsString() const override { return value; }
+};
+inline StringElement::StringElement(std::string _key, std::string value): JsonElement(std::move(_key)), value(std::move(value))
+{
+    type = JsonType::String;
+}
+
+
+class NumberElement : public JsonElement {
+private:
+    double value;
+    
+public:
+    explicit NumberElement(std::string _key, const double& value);
+    double getAsNumber() const override { return value; }
+};
+inline NumberElement::NumberElement(std::string _key, const double& value): JsonElement(std::move(_key)), value(value)
+{
+    type = JsonType::Number;
+}
+
+
+class BooleanElement : public JsonElement {
+private:
+    bool value;
+    
+public:
+    explicit BooleanElement(std::string _key, const bool& value);
+    bool getAsBoolean() const override { return value; }
+};
+inline BooleanElement::BooleanElement(std::string _key, const bool& value): JsonElement(std::move(_key)), value(value)
+{
+    type = JsonType::Boolean;
+}
+
+
+class ArrayObject : public JsonElement {
+private:
+    std::vector<JsonElement*> value;
+    
+public:
+    explicit ArrayObject(std::string _key, std::vector<JsonElement*> value);
+    const std::vector<JsonElement*>& getAsArray() const override { return value; }
+};
+inline ArrayObject::ArrayObject(std::string _key, std::vector<JsonElement*> value): JsonElement(std::move(_key)), value(std::move(value))
+{
+    type = JsonType::Array;
+}
+
+
+class ObjectElement : public JsonElement {
+private:
+    std::unordered_map<std::string, JsonElement*> value;
+    
+public:
+    explicit ObjectElement(std::string _key, std::unordered_map<std::string, JsonElement*> value);
+    const std::unordered_map<std::string, JsonElement*>& getAsObject() const override { return value; }
+};
+inline ObjectElement::ObjectElement(std::string _key, std::unordered_map<std::string, JsonElement*> value): JsonElement(std::move(_key)), value(std::move(value))
+{
+    type = JsonType::Object;
+}

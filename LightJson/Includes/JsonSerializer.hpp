@@ -3,5 +3,5 @@
 
 class JsonSerializer {
 public:
-    static std::string toJson(const JsonElement& element);
+    static std::string toJson(const JsonElement* element);
 };

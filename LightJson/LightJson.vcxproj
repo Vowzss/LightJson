@@ -144,15 +144,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Includes\JsonDeserializer.hpp" />
-    <ClInclude Include="Includes\JsonElement.hpp" />
     <ClInclude Include="Includes\JsonObject.hpp" />
     <ClInclude Include="Includes\JsonSerializer.hpp" />
     <ClInclude Include="Includes\JsonType.hpp" />
-    <ClInclude Include="Includes\JsonValue.h" />
+    <ClInclude Include="Includes\JsonElement.hpp" />
     <ClInclude Include="Includes\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Includes\JsonValue.cpp" />
     <ClCompile Include="Sources\JsonDeserializer.cpp" />
     <ClCompile Include="Sources\JsonSerializer.cpp" />
     <ClCompile Include="Sources\main.cpp" />

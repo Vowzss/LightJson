@@ -7,41 +7,37 @@
 #include <string>
 #include <stdexcept>
 
-class JsonObject {
+class JsonObject
+{
 private:
-    JsonElement element;
+    std::unordered_map<std::string, JsonElement*> elements;
 
 public:
     JsonObject() = default;
 
     JsonObject(const std::string& json) {
-        element = JsonDeserializer::fromJson(json);
+        elements = JsonDeserializer::fromJson(json);
     }
 
-    JsonObject(const JsonElement& element) : element(element) {}
-
-    JsonElement getElement() const {
-        return element;
+    JsonObject(std::unordered_map<std::string, JsonElement*> elements) : elements(std::move(elements)) {}
+    
+    std::unordered_map<std::string, JsonElement*> getMembers() const {
+        return elements;
     }
 
-    JsonElement getElement(const std::string& key) const {
-        if (element.isObject() && element.hasKey(key)) {
-            return element.getAsObject().at(key);
+    JsonElement* getMember(const std::string& key) {
+        if(!hasKey(key)) {
+            throw std::runtime_error("Key not found in object: " + key);
         }
-        throw std::runtime_error("Key not found in object: " + key);
+        return elements[key];
     }
 
 
-    void setElement(const std::string& key, const JsonElement& element) const {
-        if (element.isObject()) {
-            element.getAsObject()[key] = element;
-        }
-        else {
-            throw std::runtime_error("Cannot set value in non-object JSON");
-        }
+    void setMember(const std::string& key, JsonElement* element) {
+        elements[key] = element;
     }
 
-    std::string toJson() const {
-        return JsonSerializer::toJson(element);
+    bool hasKey(const std::string& _key) const {
+        return elements.count(_key) > 0;
     }
 };

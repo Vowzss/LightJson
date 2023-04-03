@@ -3,5 +3,5 @@
 
 class JsonDeserializer {
 public:
-    static JsonElement fromJson(const std::string& json);
+    static std::unordered_map<std::string, JsonElement*> fromJson(const std::string& json);
 };
