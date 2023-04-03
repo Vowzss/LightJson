@@ -1,57 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Sources\Types\JsonArray.cpp">
-      <Filter>Sources\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Types\JsonElement.cpp">
-      <Filter>Sources\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Types\JsonObject.cpp">
-      <Filter>Sources\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\JsonReader.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\JsonWriter.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Samples\MainSample.cpp">
-      <Filter>Samples</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Includes\JsonReader.hpp">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\Types\JsonObject.h">
-      <Filter>Includes\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\Types\JsonArray.h">
-      <Filter>Includes\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\Types\JsonElement.h">
-      <Filter>Includes\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\JsonWriter.hpp">
-      <Filter>Includes</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Includes">
-      <UniqueIdentifier>{c8e8c0e6-6c29-4722-a196-c60bcae80fe3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources">
-      <UniqueIdentifier>{a6649711-be0d-4d78-83bb-9d92deab9ebb}</UniqueIdentifier>
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Sources\Types">
-      <UniqueIdentifier>{643721a1-57fd-42e3-9e49-7a4384ebda5b}</UniqueIdentifier>
+    <Filter Include="Includes">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Includes\Types">
-      <UniqueIdentifier>{efb41f5d-43e9-4b6a-882d-4da09acd0137}</UniqueIdentifier>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Samples">
-      <UniqueIdentifier>{aab2032e-7726-4ae3-9d3a-5d232bd2632a}</UniqueIdentifier>
-    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\JsonElement.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonSerializer.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonType.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonDeserializer.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonObject.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonValue.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\StringUtils.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\JsonSerializer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\JsonDeserializer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
