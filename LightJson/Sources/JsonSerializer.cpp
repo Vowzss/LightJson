@@ -4,50 +4,70 @@
 #include <sstream>
 #include <iomanip>
 
-std::string JsonSerializer::toJson(const JsonElement* element)
-{
-    std::ostringstream oss;
+#include "../Includes/JsonObject.hpp"
 
-    switch (element->getType()) {
+std::string JsonSerializer::toJson(const JsonObject* jsonObject)
+{
+    std::string jsonString;
+
+    const auto members = jsonObject->getMembers();
+    for (auto member = members.begin(); member != members.end(); ++member)
+    {
+        const bool&        isEnd     = member == --members.end();
+        const std::string& startLine = "\"" + member->first + "\"" + ": ";
+        const std::string& endLine   = isEnd ? "" : ",";
+
+        const std::string& line = parseElement(member->second);
+        jsonString.append(startLine).append(line).append(endLine);
+    }
+    
+    return "{" + jsonString + "}";
+}
+
+std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
+{
+    std::string json;
+    std::ostringstream oss;
+    
+    switch (jsonElement->getType())
+    {
         case JsonType::Null:
-            return "null";
+            return "";
 
         case JsonType::String:
-            return "\"" + StringUtils::cleanup(element->getAsString()) + "\"";
+            return "\"" + StringUtils::cleanup(jsonElement->getAsString()) + "\"";
 
         case JsonType::Number:
-            return std::to_string(element->getAsNumber());
+            return std::to_string(jsonElement->getAsNumber());
 
         case JsonType::Boolean:
-            return element->getAsBoolean() ? "true" : "false";
+            return jsonElement->getAsBoolean() ? "true" : "false";
 
         case JsonType::Array: {
-            std::ostringstream out;
-            out << "[";
-            auto array = element->getAsArray();
-            for (std::size_t i = 0; i < array.size(); ++i) {
-                out << toJson(array[i]);
-                if (i != array.size() - 1) {
-                    out << ",";
+                oss << "[";
+                const auto& array = jsonElement->getAsArray();
+                for (std::size_t i = 0; i < array.size(); ++i) {
+                    oss << parseElement(array[i]);
+                    if (i != array.size() - 1) {
+                        oss << ",";
+                    }
                 }
-            }
-            out << "]";
-            return out.str();
+                oss << "]";
+                return oss.str();
         }
 
-        case JsonType::Object:
-        {
-            oss << '{';
-            bool first = true;
-            for (auto it = element->getAsObject().begin(); it != element->getAsObject().end(); ++it) {
-                if (!first) {
-                    oss << ',';
+        case JsonType::Object: {
+                oss << '{';
+                bool first = true;
+                for (auto it = jsonElement->getAsObject().begin(); it != jsonElement->getAsObject().end(); ++it) {
+                    if (!first) {
+                        oss << ',';
+                    }
+                    oss << "\"" << it->first  << "\"" << ":" << " " << parseElement(it->second);
+                    first = false;
                 }
-                oss << it->first << ':' << toJson(it->second);
-                first = false;
-            }
-            oss << '}';
-            return oss.str();
+                oss << '}';
+                return oss.str();
         }
 
         default:

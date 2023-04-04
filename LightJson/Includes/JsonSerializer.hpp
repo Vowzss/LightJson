@@ -1,7 +1,14 @@
 #pragma once
-#include "JsonElement.hpp"
+
+#include <string>
+
+class JsonObject;
+class JsonElement;
 
 class JsonSerializer {
 public:
-    static std::string toJson(const JsonElement* element);
+    static std::string toJson(const JsonObject* jsonObject);
+
+protected:
+    static std::string parseElement(const JsonElement* jsonElement);
 };
