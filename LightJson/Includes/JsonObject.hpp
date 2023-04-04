@@ -2,42 +2,45 @@
 
 #include "JsonElement.hpp"
 #include "../Includes/JsonDeserializer.hpp"
-#include "../Includes/JsonSerializer.hpp"
 
 #include <string>
 #include <stdexcept>
 
 class JsonObject
 {
+public:
+    
 private:
-    std::unordered_map<std::string, JsonElement*> elements;
+    JsonUtils::JsonMap members;
 
 public:
-    JsonObject() = default;
-
-    JsonObject(const std::string& json) {
-        elements = JsonDeserializer::fromJson(json);
+    JsonObject() {
+        members = {};
     }
 
-    JsonObject(std::unordered_map<std::string, JsonElement*> elements) : elements(std::move(elements)) {}
+    JsonObject(const std::string& json) {
+        members = JsonDeserializer::fromJson(json);
+    }
+
+    JsonObject(JsonUtils::JsonMap members) : members(std::move(members)) {}
     
-    std::unordered_map<std::string, JsonElement*> getMembers() const {
-        return elements;
+    JsonUtils::JsonMap getMembers() const {
+        return members;
     }
 
     JsonElement* getMember(const std::string& key) {
         if(!hasKey(key)) {
             throw std::runtime_error("Key not found in object: " + key);
         }
-        return elements[key];
+        return members[key];
     }
 
 
     void setMember(const std::string& key, JsonElement* element) {
-        elements[key] = element;
+        members[key] = element;
     }
 
     bool hasKey(const std::string& _key) const {
-        return elements.count(_key) > 0;
+        return members.count(_key) > 0;
     }
 };
