@@ -1,7 +1,17 @@
 #pragma once
-#include "JsonElement.hpp"
+
+#include <unordered_map>
+
+#include "JsonUtils.h"
+
+class JsonElement;
+class JsonObject;
 
 class JsonDeserializer {
 public:
-    static std::unordered_map<std::string, JsonElement*> fromJson(const std::string& json);
+    static JsonUtils::JsonMap fromJson(const std::string& json);
+    
+protected:
+    static std::pair<const std::string&, const JsonElement&> parseString(const std::string& string);
+    static JsonElement parseArray(const std::string& string);
 };

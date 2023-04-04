@@ -1,122 +1,111 @@
 #include "../Includes/JsonDeserializer.hpp"
 
-#include <string>
 #include <iostream>
-#include <iomanip>
-#include <sstream>
 
-std::unordered_map<std::string, JsonElement*> JsonDeserializer::fromJson(const std::string& json)
+#include "../Includes/JsonObject.hpp"
+#include "../Includes/StringUtils.h"
+
+JsonUtils::JsonMap JsonDeserializer::fromJson(const std::string& json)
 {
     std::unordered_map<std::string, JsonElement*> jsonObject;
     
-    while(json.npos("\n") != 0)
+    int depth = 0;
+    size_t separatorIdx = 1; // to avoid char '{' at beginning of the json string
+
+    if(json[0] != '{') {
+        throw std::runtime_error("JSON string");
+    }
+    for (size_t i = 0; i < json.size(); ++i)
     {
-        if (json.empty()) {
-            throw std::runtime_error("Invalid JSON: empty string");
-        }
-
-        const char firstChar = json.front();
-        if (firstChar == '{')
-        {
-            if (json.back() != '}') {
-                throw std::runtime_error("Invalid JSON: missing closing brace in object");
-            }
-        
-            size_t i = 1;
-            while (i < json.length() - 1)
-            {
-                if (json[i] != '"') {
-                    throw std::runtime_error("Invalid JSON: missing quotes around object key");
-                }
-
-                const size_t keyEndPos = json.find('"', i + 1);
-                if (keyEndPos == std::string::npos) {
-                    throw std::runtime_error("Invalid JSON: missing closing quotes around object key");
-                }
-
-                std::string key = json.substr(i, keyEndPos - i);
-                i = keyEndPos + 1;
-                if (json[i] != ':') {
-                    throw std::runtime_error("Invalid JSON: missing colon after object key");
-                }
-                i++;
-
-                size_t commaPos = json.find(',', i);
-                if (commaPos == std::string::npos) {
-                    commaPos = json.length() - 1;
-                }
-
-                const size_t bracePos = json.find('}', i);
-                if (bracePos == std::string::npos) {
-                    throw std::runtime_error("Invalid JSON: missing closing brace in object");
-                }
-
-                if (commaPos < bracePos) {
-                    object[key] = fromJson(json.substr(i, commaPos - i));
-                    i = commaPos + 1;
-                }
-                else {
-                    object[key] = fromJson(json.substr(i, bracePos - i));
-                    i = bracePos + 1;
-                    break;
-                }
-            }
-            return object;
-        }
-    
-        if (firstChar == '[')
-        {
-            if (json.back() != ']') {
-                throw std::runtime_error("Invalid JSON: missing closing bracket in array");
-            }
-
-            std::vector<JsonElement*> array;
-        
-            size_t i = 1;
-            while (i < json.length() - 1)
-            {
-                size_t commaPos = json.find(',', i);
-                if (commaPos == std::string::npos) {
-                    commaPos = json.length() - 1;
-                }
-            
-                const size_t bracketPos = json.find(']', i);
-                if (bracketPos == std::string::npos) {
-                    throw std::runtime_error("Invalid JSON: missing closing bracket in array");
-                }
-            
-                if (commaPos < bracketPos) {
-                    array.push_back(fromJson(json.substr(i, commaPos - i)));
-                    i = commaPos + 1;
-                }
-                else {
-                    array.push_back(fromJson(json.substr(i, bracketPos - i)));
-                    i = bracketPos + 1;
-                    break;
-                }
-            }
-            return array;
-        }
-        if (firstChar == '"' || (firstChar >= '0' && firstChar <= '9') || firstChar == '-') {
-            return {json};
-        }
-        if (json.substr(0, 4) == "true") {
-            return {true};
-        }
-        if (json == "false") {
-            return {false};
-        }
-        if (json == "null") {
-            return {};
-        }
-    
-        {
-            try {
-                return {(std::stod(json))};
-            }
-            catch (std::invalid_argument& e) {
-                throw std::runtime_error("Invalid JSON: unrecognized value type");
-            }
+        const char c = json[i];
+        if(c == ',') {
+            std::string string = json.substr(separatorIdx, i - separatorIdx);
+            separatorIdx = i;
+            JsonPair pair = parseString(string);
+            jsonObject.insert(pair, element);
         }
     }
+    
+        /*switch (markdown) {
+        case JsonMarkdown::START:
+            if (c == '{') {
+                markdown = JsonMarkdown::KEY;
+            } else {
+                throw std::runtime_error("JSON is not valid!");
+            }
+            break;
+        case JsonMarkdown::KEY:
+            if (c == '"') {
+                markdown = JsonMarkdown::COLON;
+            } else {
+                throw std::runtime_error("JSON is not valid!");
+            }
+            break;
+        case JsonMarkdown::COLON:
+            if (c == ':') {
+                markdown = JsonMarkdown::VALUE;
+            } else {
+                throw std::runtime_error("JSON is not valid!");
+            }
+            break;
+        case JsonMarkdown::VALUE:
+            if (c == '"') {
+                value.clear();
+                markdown = JsonMarkdown::COMMA;
+            } else {
+                value += c;
+            }
+            break;
+        case JsonMarkdown::COMMA:
+            if (c == ',') {
+                jsonObject.insert(key, value);
+                key.clear();
+                markdown = JsonMarkdown::KEY;
+            } else if (c == '}') {
+                jsonObject.insert(key, value);
+                markdown = JsonMarkdown::END;
+            } else {
+                throw std::runtime_error("JSON is not valid!");
+            }
+            break;
+        case JsonMarkdown::END:
+            /*if (!isspace(c)) {
+                throw std::runtime_error("JSON is not valid!");
+            }
+            break;
+        }
+    }*/
+
+    return jsonObject;
+}
+
+JsonDeserializer::JsonPair JsonDeserializer::parseString(const std::string& string)
+{
+    const size_t separatorIdx = string.find(':');
+    const std::string key = StringUtils::removeQuotes(string.substr(0, separatorIdx-1));
+    const std::string val = string.substr(separatorIdx+2, string.size()-separatorIdx-2);
+
+    switch (val[0])
+    {
+    case '{':
+        break;
+    case '[': {
+            const JsonElement array = parseArray(val);
+            break;
+        }
+    case '"':
+        return JsonPair(key, StringElement(StringUtils::removeQuotes(val)));
+    case 't':
+        return JsonPair(key, BooleanElement(true));
+    case 'f':
+        return JsonPair(key, BooleanElement(false));
+    default:
+        return JsonPair(key, NumberElement(std::stod(val)));
+    }
+}
+
+JsonElement JsonDeserializer::parseArray(const std::string& string)
+{
+
+    return {};
 }
