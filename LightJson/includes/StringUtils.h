@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <sstream>
 
@@ -40,4 +41,16 @@ public:
         }
         return oss.str();
     }
+
+    static std::string removeWhitespace(std::string str)
+	{
+	    std::replace_if(str.begin(), str.end(), [](char c) { return std::isspace(c); }, ' ');
+	    return str;
+	}
+
+    static std::string removeQuotes(std::string str)
+	{
+	    str.erase(std::remove(str.begin(), str.end(), '\"'), str.end());
+	    return str;
+	}
 };
