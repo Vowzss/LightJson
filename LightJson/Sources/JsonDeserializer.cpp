@@ -7,105 +7,143 @@
 
 JsonUtils::JsonMap JsonDeserializer::fromJson(const std::string& json)
 {
-    std::unordered_map<std::string, JsonElement*> jsonObject;
+    JsonUtils::JsonMap jsonObject;
     
     int depth = 0;
-    size_t separatorIdx = 1; // to avoid char '{' at beginning of the json string
+    size_t separatorIdx = 0;
 
     if(json[0] != '{') {
-        throw std::runtime_error("JSON string");
-    }
-    for (size_t i = 0; i < json.size(); ++i)
-    {
-        const char c = json[i];
-        if(c == ',') {
-            std::string string = json.substr(separatorIdx, i - separatorIdx);
-            separatorIdx = i;
-            JsonPair pair = parseString(string);
-            jsonObject.insert(pair, element);
-        }
+        throw std::runtime_error("JSON format error");
     }
     
-        /*switch (markdown) {
-        case JsonMarkdown::START:
-            if (c == '{') {
-                markdown = JsonMarkdown::KEY;
-            } else {
-                throw std::runtime_error("JSON is not valid!");
+    for (size_t i = 1; i < json.size(); ++i)
+    {
+        switch (json[i])
+        {
+            case '{':
+            case '[':
+                ++depth;
+                break;
+            
+            case '}':
+            case ']':
+                --depth;
+                break;
+            
+            case ',': {
+                if (depth > 0) break;
+                const std::string string       = json.substr(separatorIdx+1, i-separatorIdx-1);
+                const JsonUtils::JsonPair pair = parseElement(string);
+                jsonObject[pair.first]         = pair.second;
+                separatorIdx                   = i;
+                break;
             }
-            break;
-        case JsonMarkdown::KEY:
-            if (c == '"') {
-                markdown = JsonMarkdown::COLON;
-            } else {
-                throw std::runtime_error("JSON is not valid!");
-            }
-            break;
-        case JsonMarkdown::COLON:
-            if (c == ':') {
-                markdown = JsonMarkdown::VALUE;
-            } else {
-                throw std::runtime_error("JSON is not valid!");
-            }
-            break;
-        case JsonMarkdown::VALUE:
-            if (c == '"') {
-                value.clear();
-                markdown = JsonMarkdown::COMMA;
-            } else {
-                value += c;
-            }
-            break;
-        case JsonMarkdown::COMMA:
-            if (c == ',') {
-                jsonObject.insert(key, value);
-                key.clear();
-                markdown = JsonMarkdown::KEY;
-            } else if (c == '}') {
-                jsonObject.insert(key, value);
-                markdown = JsonMarkdown::END;
-            } else {
-                throw std::runtime_error("JSON is not valid!");
-            }
-            break;
-        case JsonMarkdown::END:
-            /*if (!isspace(c)) {
-                throw std::runtime_error("JSON is not valid!");
-            }
+            default: break;
+        }
+        
+        if (depth < 0)
+        {
+            const std::string string       = json.substr(separatorIdx+1, i-separatorIdx-1);
+            const JsonUtils::JsonPair pair = parseElement(string);
+            jsonObject[pair.first]         = pair.second;
             break;
         }
-    }*/
+    }
 
     return jsonObject;
 }
 
-JsonDeserializer::JsonPair JsonDeserializer::parseString(const std::string& string)
+JsonUtils::JsonPair JsonDeserializer::parseElement(const std::string& element)
 {
-    const size_t separatorIdx = string.find(':');
-    const std::string key = StringUtils::removeQuotes(string.substr(0, separatorIdx-1));
-    const std::string val = string.substr(separatorIdx+2, string.size()-separatorIdx-2);
+    const size_t separatorIdx = element.find(':');
+    const std::string key     = StringUtils::removeQuotes(element.substr(0, separatorIdx-1));
+    const std::string val     = element.substr(separatorIdx+2, element.size()-separatorIdx-2);
 
+    if(val.empty()) {
+        throw std::runtime_error("String is null or empty");
+    }
+    
     switch (val[0])
     {
-    case '{':
-        break;
-    case '[': {
-            const JsonElement array = parseArray(val);
-            break;
-        }
-    case '"':
-        return JsonPair(key, StringElement(StringUtils::removeQuotes(val)));
-    case 't':
-        return JsonPair(key, BooleanElement(true));
-    case 'f':
-        return JsonPair(key, BooleanElement(false));
-    default:
-        return JsonPair(key, NumberElement(std::stod(val)));
+        case '{':
+            return JsonUtils::makeJsonPair(key, new ObjectElement(fromJson(val)));
+        case '[':
+            return JsonUtils::makeJsonPair(key, parseArray(val));
+        case '"':
+            return JsonUtils::makeJsonPair(key, new StringElement(StringUtils::removeQuotes(val)));
+        case 't':
+            return JsonUtils::makeJsonPair(key, new BooleanElement(true));
+        case 'f':
+            return JsonUtils::makeJsonPair(key, new BooleanElement(false));
+        default:
+            return JsonUtils::makeJsonPair(key, new NumberElement(std::stod(val)));
     }
 }
 
-JsonElement JsonDeserializer::parseArray(const std::string& string)
+ArrayElement* JsonDeserializer::parseArray(const std::string& array)
 {
+    std::vector<JsonElement*> values;
+    
+    int depth = 0;
+    size_t separatorIdx = 0;
 
-    return {};
+    if(array[0] != '[') {
+        throw std::runtime_error("Array format error");
+    }
+    
+    for (size_t i = 1; i < array.size(); ++i)
+    {
+        switch (array[i])
+        {
+        case '{':
+        case '[':
+            ++depth;
+            break;
+            
+        case '}':
+        case ']':
+            --depth;
+            break;
+            
+        case ',': {
+                if (depth > 0) break;
+                const std::string string = array.substr(separatorIdx+1, i-separatorIdx-1);
+                values.emplace_back(parseArrayElement(string));
+                separatorIdx = i;
+                break;
+        }
+        default: break;
+        }
+        
+        if (depth < 0)
+        {
+            const std::string string = array.substr(separatorIdx+1, i-separatorIdx-1);
+            values.emplace_back(parseArrayElement(string));
+            break;
+        }
+    }
+    return new ArrayElement(values);
+}
+
+JsonElement* JsonDeserializer::parseArrayElement(const std::string& element)
+{
+    if(element.empty()) {
+        throw std::runtime_error("Array element is null or empty");
+    }
+    
+    switch (element[0])
+    {
+        case '{':
+            return new ObjectElement(fromJson(element));
+        case '[':
+            return parseArray(element);
+        case '"':
+            return new StringElement(StringUtils::removeQuotes(element));
+        case 't':
+            return new BooleanElement(true);
+        case 'f':
+            return new BooleanElement(false);
+        default:
+            return new NumberElement(std::stod(element));
+    }
 }

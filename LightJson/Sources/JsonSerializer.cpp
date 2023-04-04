@@ -31,19 +31,19 @@ std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
     
     switch (jsonElement->getType())
     {
-        case JsonType::Null:
-            return "";
+        case JsonUtils::JsonType::Null:
+                return "";
 
-        case JsonType::String:
+        case JsonUtils::JsonType::String:
             return "\"" + StringUtils::cleanup(jsonElement->getAsString()) + "\"";
 
-        case JsonType::Number:
+        case JsonUtils::JsonType::Number:
             return std::to_string(jsonElement->getAsNumber());
 
-        case JsonType::Boolean:
+        case JsonUtils::JsonType::Boolean:
             return jsonElement->getAsBoolean() ? "true" : "false";
 
-        case JsonType::Array: {
+        case JsonUtils::JsonType::Array: {
                 oss << "[";
                 const auto& array = jsonElement->getAsArray();
                 for (std::size_t i = 0; i < array.size(); ++i) {
@@ -56,7 +56,7 @@ std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
                 return oss.str();
         }
 
-        case JsonType::Object: {
+        case JsonUtils::JsonType::Object: {
                 oss << '{';
                 bool first = true;
                 for (auto it = jsonElement->getAsObject().begin(); it != jsonElement->getAsObject().end(); ++it) {

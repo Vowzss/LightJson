@@ -44,7 +44,25 @@ public:
 
     static std::string removeWhitespace(std::string str)
 	{
-	    std::replace_if(str.begin(), str.end(), [](char c) { return std::isspace(c); }, ' ');
+	    bool prevCharWasSpace = false;
+	    for (size_t i = 0; i < str.size(); i++)
+	    {
+	        const char c = str[i];
+	        if (c < 0 || std::isspace(c))
+	        {
+	            if (prevCharWasSpace || c == '\n' || c < 0) {
+		            str.erase(str.begin()+i);
+	            	--i;
+	            }
+	        	else {
+	        		str[i] = ' ';
+	        	}
+	    		prevCharWasSpace = true;
+	        }
+	    	else {
+	    		prevCharWasSpace = false;
+	    	}
+	    }
 	    return str;
 	}
 
