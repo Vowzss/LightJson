@@ -153,7 +153,11 @@
   <ItemGroup>
     <ClCompile Include="Sources\JsonDeserializer.cpp" />
     <ClCompile Include="Sources\JsonSerializer.cpp" />
+    <ClCompile Include="Sources\JsonUtils.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\test.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

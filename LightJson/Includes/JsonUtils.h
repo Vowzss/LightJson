@@ -6,8 +6,9 @@ class JsonElement;
 class JsonUtils
 {
 public:
-    typedef std::unordered_map<std::string, JsonElement*>              JsonMap;
-    typedef std::make_pair    <const std::string&, const JsonElement&> JsonPair;
+    typedef std::unordered_map<std::string, JsonElement*> JsonMap;
+    typedef std::vector<JsonElement*>                     JsonArray;
+    typedef std::pair<std::string, JsonElement*>          JsonPair;
 
     enum class JsonType {
         Null,
@@ -17,4 +18,6 @@ public:
         Array,
         Object
     };
+
+    static JsonPair makeJsonPair(std::string key, JsonElement* element);
 };

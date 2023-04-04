@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <stdexcept>
 
+#include "JsonUtils.h"
+
 enum class JsonType;
 
 class JsonElement {
@@ -16,11 +18,11 @@ public:
     JsonElement() : type(JsonUtils::JsonType::Null) {}
     virtual ~JsonElement() = default;
     
-    virtual std::string                                           getAsString()  const { throw std::runtime_error("Element is not a string");  }
-    virtual double                                                getAsNumber()  const { throw std::runtime_error("Element is not a number");  }
-    virtual bool                                                  getAsBoolean() const { throw std::runtime_error("Element is not a boolean"); }
-    virtual const  std::vector<JsonElement*> &                    getAsArray()   const { throw std::runtime_error("Element is not an array");  }
-    virtual const  std::unordered_map<std::string, JsonElement*>& getAsObject()  const { throw std::runtime_error("Element is not an object"); }
+    virtual std::string          getAsString()  const { throw std::runtime_error("Element is not a string");  }
+    virtual double               getAsNumber()  const { throw std::runtime_error("Element is not a number");  }
+    virtual bool                 getAsBoolean() const { throw std::runtime_error("Element is not a boolean"); }
+    virtual JsonUtils::JsonArray getAsArray()   const { throw std::runtime_error("Element is not an array");  }
+    virtual JsonUtils::JsonMap   getAsObject()  const { throw std::runtime_error("Element is not an object"); }
     
     bool isOfType(const JsonUtils::JsonType& _type) const { return type == _type; }
 
@@ -70,15 +72,15 @@ inline BooleanElement::BooleanElement(const bool& value) : value(value)
 }
 
 
-class ArrayObject : public JsonElement {
+class ArrayElement : public JsonElement {
 private:
-    std::vector<JsonElement*> value;
+    JsonUtils::JsonArray array;
     
 public:
-    explicit ArrayObject(std::vector<JsonElement*> value);
-    const std::vector<JsonElement*>& getAsArray() const override { return value; }
+    explicit ArrayElement(JsonUtils::JsonArray array);
+    JsonUtils::JsonArray getAsArray() const override { return array; }
 };
-inline ArrayObject::ArrayObject(std::vector<JsonElement*> value) : value(std::move(value))
+inline ArrayElement::ArrayElement(JsonUtils::JsonArray array) : array(std::move(array))
 {
     type = JsonUtils::JsonType::Array;
 }
@@ -86,13 +88,13 @@ inline ArrayObject::ArrayObject(std::vector<JsonElement*> value) : value(std::mo
 
 class ObjectElement : public JsonElement {
 private:
-    std::unordered_map<std::string, JsonElement*> value;
+    JsonUtils::JsonMap map;
     
 public:
-    explicit ObjectElement(std::unordered_map<std::string, JsonElement*> value);
-    const std::unordered_map<std::string, JsonElement*>& getAsObject() const override { return value; }
+    explicit ObjectElement(JsonUtils::JsonMap map);
+    JsonUtils::JsonMap getAsObject() const override { return map; }
 };
-inline ObjectElement::ObjectElement(std::unordered_map<std::string, JsonElement*> value) : value(std::move(value))
+inline ObjectElement::ObjectElement(JsonUtils::JsonMap map) : map(std::move(map))
 {
     type = JsonUtils::JsonType::Object;
 }

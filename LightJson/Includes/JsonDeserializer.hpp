@@ -4,6 +4,7 @@
 
 #include "JsonUtils.h"
 
+class ArrayElement;
 class JsonElement;
 class JsonObject;
 
@@ -12,6 +13,7 @@ public:
     static JsonUtils::JsonMap fromJson(const std::string& json);
     
 protected:
-    static std::pair<const std::string&, const JsonElement&> parseString(const std::string& string);
-    static JsonElement parseArray(const std::string& string);
+    static JsonUtils::JsonPair parseElement     (const std::string& element);
+    static ArrayElement*       parseArray       (const std::string& array);
+    static JsonElement*        parseArrayElement(const std::string& element);
 };
