@@ -1,7 +1,10 @@
+#include <fstream>
 #include <iostream>
+#include <sstream>
 
 #include "../Includes/JsonObject.hpp"
 #include "../Includes/JsonSerializer.hpp"
+#include "../Includes/StringUtils.h"
 
 int main(int argc, char* argv[]) {
 	JsonObject* obj = new JsonObject();
@@ -9,17 +12,22 @@ int main(int argc, char* argv[]) {
 	obj->setMember("age",  new NumberElement(17));
 	obj->setMember("isStudent", new BooleanElement(true));
 	
-	obj->setMember("classes", new ArrayObject(
+	obj->setMember("classes", new ArrayElement(
 		{
 			new ObjectElement(
 				{
-					{ "Science", new ArrayObject(
+					{ "Science", new ArrayElement(
 						{
 							new StringElement("Mathematics"),
 							new StringElement("Physics"),
 						    new StringElement("Chemistry"),
 						}),
-					}
+					},
+					{ "Literature", new ArrayElement(
+						{
+							new StringElement("English"),
+						}),
+					},
 				}),
 			new StringElement("English"),
 			new StringElement("French"),
@@ -37,11 +45,15 @@ int main(int argc, char* argv[]) {
 	
 	const std::string json = JsonSerializer::toJson(obj);
 	std::cout << json << std::endl;
+
+	std::ifstream fs("Resources/test.json");
+	std::stringstream ss;
+	ss << fs.rdbuf();
 	
-	JsonObject newObj(json);
-	std::cout << newObj.getMember("name")->getAsString() << std::endl;
-	std::cout << newObj.getMember("age")->getAsNumber() << std::endl;
-	std::cout << newObj.getMember("isStudent")->getAsBoolean() << std::endl;
+	JsonObject newObj(StringUtils::removeWhitespace(ss.str()));
+	std::cout << newObj.getMember("country")->getAsString() << std::endl;
+	std::cout << newObj.getMember("email from expression")->getAsString() << std::endl;
+	std::cout << newObj.getMember("array")->getAsArray()[0]->getAsString() << std::endl;
 
 	return 0;
 }
