@@ -13,24 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Samples">
+      <UniqueIdentifier>{48b12320-bfed-4085-b5a7-d57126b37f80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Includes\JsonElement.hpp">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\JsonSerializer.hpp">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\JsonType.hpp">
-      <Filter>Includes</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\JsonDeserializer.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonElement.hpp">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="Includes\JsonObject.hpp">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\JsonValue.hpp">
+    <ClInclude Include="Includes\JsonSerializer.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonUtils.h">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="Includes\StringUtils.h">
@@ -38,14 +38,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\JsonSerializer.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\main.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\JsonDeserializer.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\JsonSerializer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\JsonUtils.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\MainSample.cpp">
+      <Filter>Samples</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\test.json">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

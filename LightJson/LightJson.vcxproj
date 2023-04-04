@@ -143,21 +143,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Content Include="Resources\test.json" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Includes\JsonDeserializer.hpp" />
+    <ClInclude Include="Includes\JsonElement.hpp" />
     <ClInclude Include="Includes\JsonObject.hpp" />
     <ClInclude Include="Includes\JsonSerializer.hpp" />
-    <ClInclude Include="Includes\JsonElement.hpp" />
     <ClInclude Include="Includes\JsonUtils.h" />
     <ClInclude Include="Includes\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Samples\MainSample.cpp" />
     <ClCompile Include="Sources\JsonDeserializer.cpp" />
     <ClCompile Include="Sources\JsonSerializer.cpp" />
     <ClCompile Include="Sources\JsonUtils.cpp" />
-    <ClCompile Include="Sources\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\test.json" />
+    <None Include="Resources\test.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
