@@ -1,6 +1,6 @@
 #include "../Includes/StringUtils.h"
-#include "../Includes/JsonSerializer.hpp"
-#include "../Includes/JsonObject.hpp"
+#include "../Includes/JsonSerializer.h"
+#include "../Includes/JsonObject.h"
 
 using namespace LightJson;
 

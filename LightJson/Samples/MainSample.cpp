@@ -1,8 +1,8 @@
 #include <fstream>
 #include <iostream>
 
-#include "../Includes/JsonObject.hpp"
-#include "../Includes/JsonSerializer.hpp"
+#include "../Includes/JsonObject.h"
+#include "../Includes/JsonSerializer.h"
 #include "../Includes/StringUtils.h"
 
 using namespace LightJson;

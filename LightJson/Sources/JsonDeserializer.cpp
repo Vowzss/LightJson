@@ -1,4 +1,4 @@
-#include "../Includes/JsonObject.hpp"
+#include "../Includes/JsonObject.h"
 #include "../Includes/StringUtils.h"
 
 using namespace LightJson;

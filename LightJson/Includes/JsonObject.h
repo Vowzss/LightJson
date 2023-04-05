@@ -1,7 +1,7 @@
 #pragma once
 
-#include "JsonElement.hpp"
-#include "JsonDeserializer.hpp"
+#include "JsonElement.h"
+#include "JsonDeserializer.h"
 
 namespace LightJson
 {
