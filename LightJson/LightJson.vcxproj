@@ -146,11 +146,12 @@
     <Content Include="Resources\test.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Includes\JsonDeserializer.hpp" />
-    <ClInclude Include="Includes\JsonElement.hpp" />
-    <ClInclude Include="Includes\JsonObject.hpp" />
-    <ClInclude Include="Includes\JsonSerializer.hpp" />
+    <ClInclude Include="Includes\JsonDeserializer.h" />
+    <ClInclude Include="Includes\JsonElement.h" />
+    <ClInclude Include="Includes\JsonObject.h" />
+    <ClInclude Include="Includes\JsonSerializer.h" />
     <ClInclude Include="Includes\JsonUtils.h" />
+    <ClInclude Include="Includes\JsonVirtual.h" />
     <ClInclude Include="Includes\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>

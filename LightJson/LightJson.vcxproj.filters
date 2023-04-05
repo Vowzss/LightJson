@@ -18,22 +18,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Includes\JsonDeserializer.hpp">
+    <ClInclude Include="Includes\JsonDeserializer.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\JsonElement.hpp">
+    <ClInclude Include="Includes\JsonElement.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\JsonObject.hpp">
+    <ClInclude Include="Includes\JsonObject.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\JsonSerializer.hpp">
+    <ClInclude Include="Includes\JsonSerializer.h">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="Includes\JsonUtils.h">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="Includes\StringUtils.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\JsonVirtual.h">
       <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
