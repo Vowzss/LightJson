@@ -1,9 +1,7 @@
-#include "../Includes/JsonDeserializer.hpp"
-
-#include <iostream>
-
 #include "../Includes/JsonObject.hpp"
 #include "../Includes/StringUtils.h"
+
+using namespace LightJson;
 
 JsonUtils::JsonMap JsonDeserializer::fromJson(const std::string& json)
 {

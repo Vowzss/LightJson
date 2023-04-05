@@ -1,10 +1,8 @@
-#include "../Includes/JsonSerializer.hpp"
 #include "../Includes/StringUtils.h"
-
-#include <sstream>
-#include <iomanip>
-
+#include "../Includes/JsonSerializer.hpp"
 #include "../Includes/JsonObject.hpp"
+
+using namespace LightJson;
 
 std::string JsonSerializer::toJson(const JsonObject* jsonObject)
 {
@@ -59,10 +57,9 @@ std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
         case JsonUtils::JsonType::Object: {
                 oss << '{';
                 bool first = true;
-                for (auto it = jsonElement->getAsObject().begin(); it != jsonElement->getAsObject().end(); ++it) {
-                    if (!first) {
-                        oss << ',';
-                    }
+                JsonUtils::JsonMap map = jsonElement->getAsObject();
+                for (auto it = map.begin(); it != map.end(); ++it) {
+                    if (!first) { oss << ','; }
                     oss << "\"" << it->first  << "\"" << ":" << " " << parseElement(it->second);
                     first = false;
                 }
@@ -70,7 +67,6 @@ std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
                 return oss.str();
         }
 
-        default:
-            throw std::runtime_error("Invalid JSON value type");
+        default: throw std::runtime_error("Invalid JSON value type");
     }
 }

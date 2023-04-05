@@ -1,12 +1,13 @@
 #include <fstream>
 #include <iostream>
-#include <sstream>
 
 #include "../Includes/JsonObject.hpp"
 #include "../Includes/JsonSerializer.hpp"
 #include "../Includes/StringUtils.h"
 
-int main(int argc, char* argv[]) {
+using namespace LightJson;
+
+int main() {
 	JsonObject* obj = new JsonObject();
 	obj->setMember("name", new StringElement("John Doe"));
 	obj->setMember("age",  new NumberElement(17));

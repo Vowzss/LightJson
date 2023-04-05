@@ -2,13 +2,16 @@
 
 #include <string>
 
-class JsonObject;
-class JsonElement;
+namespace LightJson
+{
+    class JsonObject;
+    class JsonElement;
 
-class JsonSerializer {
-public:
-    static std::string toJson(const JsonObject* jsonObject);
+    class JsonSerializer {
+    public:
+        static std::string toJson(const JsonObject* jsonObject);
 
-protected:
-    static std::string parseElement(const JsonElement* jsonElement);
-};
+    protected:
+        static std::string parseElement(const JsonElement* jsonElement);
+    };
+}

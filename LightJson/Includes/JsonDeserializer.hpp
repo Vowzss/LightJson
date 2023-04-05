@@ -1,19 +1,20 @@
 #pragma once
 
-#include <unordered_map>
-
 #include "JsonUtils.h"
 
-class ArrayElement;
-class JsonElement;
-class JsonObject;
+namespace LightJson
+{
+    class ArrayElement;
+    class JsonElement;
+    class JsonObject;
 
-class JsonDeserializer {
-public:
-    static JsonUtils::JsonMap fromJson(const std::string& json);
+    class JsonDeserializer {
+    public:
+        static JsonUtils::JsonMap fromJson(const std::string& json);
     
-protected:
-    static JsonUtils::JsonPair parseElement     (const std::string& element);
-    static ArrayElement*       parseArray       (const std::string& array);
-    static JsonElement*        parseArrayElement(const std::string& element);
-};
+    protected:
+        static JsonUtils::JsonPair parseElement     (const std::string& element);
+        static ArrayElement*       parseArray       (const std::string& array);
+        static JsonElement*        parseArrayElement(const std::string& element);
+    };
+}
