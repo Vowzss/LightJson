@@ -44,8 +44,8 @@ namespace LightJson
             members[key] = element;
         }
 
-        bool hasKey(const std::string& _key) const {
-            return members.count(_key) > 0;
+        bool hasKey(const std::string& key) const {
+            return members.count(key) > 0;
         }
     };
 }
