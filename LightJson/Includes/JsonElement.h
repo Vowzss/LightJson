@@ -13,10 +13,10 @@ namespace LightJson
     class JsonElement
     {
     protected:
-        JsonUtils::JsonType type;
+        JsonType type;
     
     public:
-        JsonElement() : type(JsonUtils::JsonType::Null) {}
+        JsonElement() : type(JsonType::Null) {}
         virtual ~JsonElement() = default;
     
         virtual std::string          getAsString()  const { throw std::runtime_error("Element is not a string");   }
@@ -30,9 +30,9 @@ namespace LightJson
         virtual short                getAsShort()   const { throw std::runtime_error("Element is not a short");    }
         virtual char                 getAsChar()    const { throw std::runtime_error("Element is not a char");     }
     
-        bool isOfType(const JsonUtils::JsonType& _type) const { return type == _type; }
+        bool isOfType(const JsonType& _type) const { return type == _type; }
 
-        JsonUtils::JsonType getType() const { return type; }
+        JsonType getType() const { return type; }
     };
 
 
@@ -47,7 +47,7 @@ namespace LightJson
     };
     inline StringElement::StringElement(std::string value) : value(std::move(value))
     {
-        type = JsonUtils::JsonType::String;
+        type = JsonType::String;
     }
 
 
@@ -68,21 +68,18 @@ namespace LightJson
     };
     template <typename T> NumberElement<T>::NumberElement(const T& value) : value(value)
     {
-        switch (typeid(T).hash_code()) {
-            case typeid(int).hash_code():
-            case typeid(unsigned int).hash_code():
-            case typeid(size_t).hash_code():
-                type = JsonUtils::JsonType::Integer; break;
-            case typeid(float).hash_code():
-                type = JsonUtils::JsonType::Float; break;
-            case typeid(long).hash_code():
-                type = JsonUtils::JsonType::Long; break;
-            case typeid(short).hash_code():
-                type = JsonUtils::JsonType::Short; break;
-            case typeid(char).hash_code():
-                type = JsonUtils::JsonType::Char; break;
-            default:
-                type = JsonUtils::JsonType::Double; break;
+        if constexpr (std::is_same_v<T, int> || std::is_same_v<T, unsigned int> || std::is_same_v<T, size_t>) {
+            type = JsonType::Integer;
+        } else if constexpr (std::is_same_v<T, float>) {
+            type = JsonType::Float;
+        } else if constexpr (std::is_same_v<T, long>) {
+            type = JsonType::Long;
+        } else if constexpr (std::is_same_v<T, short>) {
+            type = JsonType::Short;
+        } else if constexpr (std::is_same_v<T, double>) {
+            type = JsonType::Double;
+        } else {
+            type = JsonType::Char;
         }
     }
     
@@ -98,7 +95,7 @@ namespace LightJson
     };
     inline BooleanElement::BooleanElement(const bool& value) : value(value)
     {
-        type = JsonUtils::JsonType::Boolean;
+        type = JsonType::Boolean;
     }
 
 
@@ -120,7 +117,7 @@ namespace LightJson
     };
     inline ArrayElement::ArrayElement(JsonUtils::JsonArray array) : array(std::move(array))
     {
-        type = JsonUtils::JsonType::Array;
+        type = JsonType::Array;
     }
 
 
@@ -142,6 +139,6 @@ namespace LightJson
     };
     inline ObjectElement::ObjectElement(JsonUtils::JsonMap map) : map(std::move(map))
     {
-        type = JsonUtils::JsonType::Object;
+        type = JsonType::Object;
     }
 }

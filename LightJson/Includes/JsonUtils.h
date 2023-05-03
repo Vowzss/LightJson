@@ -5,24 +5,25 @@
 namespace LightJson
 {
     class JsonElement;
+    class JsonObject;
+    
+    enum class JsonType {
+        Null,
+        Boolean,
+        Float,
+        Double,
+        Long,
+        Short,
+        Char,
+        Integer,
+        String,
+        Array,
+        Object
+    };
 
     class JsonUtils
     {
     public:
-        enum class JsonType {
-            Null,
-            Boolean,
-            Float,
-            Double,
-            Long,
-            Short,
-            Char,
-            Integer,
-            String,
-            Array,
-            Object
-        };
-        
         typedef std::unordered_map<std::string, JsonElement*> JsonMap;
         typedef std::vector<JsonElement*>                     JsonArray;
         typedef std::pair<std::string, JsonElement*>          JsonPair;

@@ -1,6 +1,9 @@
+#include <fstream>
+
 #include "../Includes/StringUtils.h"
 #include "../Includes/JsonSerializer.h"
 #include "../Includes/JsonObject.h"
+#include "../Includes/JsonElement.h"
 
 using namespace LightJson;
 
@@ -22,6 +25,13 @@ std::string JsonSerializer::toJson(const JsonObject* jsonObject)
     return "{" + jsonString + "}";
 }
 
+void JsonSerializer::toFile(const JsonObject* jsonObject, const std::string& filename)
+{
+    std::ofstream outfile(filename);
+    outfile << toJson(jsonObject);
+    outfile.close();
+}
+
 std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
 {
     std::string json;
@@ -29,19 +39,34 @@ std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
     
     switch (jsonElement->getType())
     {
-        case JsonUtils::JsonType::Null:
+        case JsonType::Null:
                 return "";
 
-        case JsonUtils::JsonType::String:
-            return "\"" + StringUtils::cleanup(jsonElement->getAsString()) + "\"";
-
-        case JsonUtils::JsonType::Number:
-            return std::to_string(jsonElement->getAsNumber());
-
-        case JsonUtils::JsonType::Boolean:
+        case JsonType::Boolean:
             return jsonElement->getAsBoolean() ? "true" : "false";
 
-        case JsonUtils::JsonType::Array: {
+        case JsonType::Float:
+            return std::to_string(jsonElement->getAsFloat());
+
+        case JsonType::Double:
+            return std::to_string(jsonElement->getAsDouble());
+
+        case JsonType::Long:
+            return std::to_string(jsonElement->getAsLong());
+
+        case JsonType::Short:
+            return std::to_string(jsonElement->getAsShort());
+        
+        case JsonType::Char:
+            return std::to_string(jsonElement->getAsChar());
+
+        case JsonType::Integer:
+            return std::to_string(jsonElement->getAsInteger());
+
+        case JsonType::String:
+            return "\"" + StringUtils::cleanup(jsonElement->getAsString()) + "\"";
+
+        case JsonType::Array: {
                 oss << "[";
                 const auto& array = jsonElement->getAsArray();
                 for (std::size_t i = 0; i < array.size(); ++i) {
@@ -54,7 +79,7 @@ std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
                 return oss.str();
         }
 
-        case JsonUtils::JsonType::Object: {
+        case JsonType::Object: {
                 oss << '{';
                 bool first = true;
                 JsonUtils::JsonMap map = jsonElement->getAsObject();

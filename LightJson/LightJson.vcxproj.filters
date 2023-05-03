@@ -39,6 +39,12 @@
     <ClInclude Include="Includes\JsonVirtual.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\JsonHelper.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Samples\HelperSample.h">
+      <Filter>Samples</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\JsonDeserializer.cpp">
@@ -47,15 +53,21 @@
     <ClCompile Include="Sources\JsonSerializer.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\JsonUtils.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="Samples\HelperSample.cpp">
+      <Filter>Samples</Filter>
     </ClCompile>
-    <ClCompile Include="Samples\MainSample.cpp">
+    <ClCompile Include="Samples\CreateSample.cpp">
+      <Filter>Samples</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\ReadSample.cpp">
       <Filter>Samples</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\test.json">
+    <None Include="Resources\CreateSample.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\Example.json">
       <Filter>Resources</Filter>
     </None>
   </ItemGroup>

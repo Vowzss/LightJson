@@ -1,10 +1,13 @@
 #pragma once
 
-#include "JsonElement.h"
+#include <stdexcept>
+
 #include "JsonDeserializer.h"
 
 namespace LightJson
 {
+    class JsonElement;
+
     class JsonObject
     {
     private:

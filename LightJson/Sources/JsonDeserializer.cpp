@@ -1,5 +1,6 @@
 #include "../Includes/JsonObject.h"
 #include "../Includes/StringUtils.h"
+#include "../Includes/JsonElement.h"
 
 using namespace LightJson;
 
@@ -74,7 +75,7 @@ JsonUtils::JsonPair JsonDeserializer::parseElement(const std::string& element)
         case 'f':
             return JsonUtils::makeJsonPair(key, new BooleanElement(false));
         default:
-            return JsonUtils::makeJsonPair(key, new NumberElement(std::stod(val)));
+            return JsonUtils::makeJsonPair(key, new NumberElement<double>(std::stod(val)));
     }
 }
 
@@ -142,6 +143,6 @@ JsonElement* JsonDeserializer::parseArrayElement(const std::string& element)
         case 'f':
             return new BooleanElement(false);
         default:
-            return new NumberElement(std::stod(element));
+            return new NumberElement<double>(std::stod(element));
     }
 }

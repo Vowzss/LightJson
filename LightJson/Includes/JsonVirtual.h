@@ -11,11 +11,11 @@ namespace LightJson {
 	public:
 		virtual ~JsonVirtual() = default;
 		
-		virtual JsonElement* Serialize()					   { return nullptr; }
-		virtual void		 Serialize(JsonObject& jsonObject) {}
+		virtual JsonElement* Serialize()					   const { return nullptr; }
+		virtual void		 Serialize(JsonObject& jsonObject) const {}
 		
-		virtual void Deserialize(JsonObject& jsonObject)	  {}
-		virtual void Deserialize(JsonUtils::JsonMap& jsonMap) {}
+		virtual void Deserialize(JsonObject& jsonObject)	   {}
+		virtual void Deserialize(JsonUtils::JsonMap& jsonMap)  {}
 	};
 }
 

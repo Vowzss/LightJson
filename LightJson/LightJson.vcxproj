@@ -134,6 +134,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Content Include="Resources\test.json" />
+    <Content Include="Resources\CreateSample.json" />
+    <Content Include="Resources\Example.json" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\JsonDeserializer.h" />
@@ -154,15 +157,18 @@
     <ClInclude Include="Includes\JsonUtils.h" />
     <ClInclude Include="Includes\JsonVirtual.h" />
     <ClInclude Include="Includes\StringUtils.h" />
+    <ClInclude Include="Samples\HelperSample.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Samples\MainSample.cpp" />
+    <ClCompile Include="Samples\HelperSample.cpp" />
+    <ClCompile Include="Samples\CreateSample.cpp" />
+    <ClCompile Include="Samples\ReadSample.cpp" />
     <ClCompile Include="Sources\JsonDeserializer.cpp" />
-    <ClCompile Include="Sources\JsonHelper.cpp" />
     <ClCompile Include="Sources\JsonSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\test.json" />
+    <None Include="Resources\CreateSample.json" />
+    <None Include="Resources\Example.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
