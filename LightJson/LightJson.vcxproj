@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Includes\JsonDeserializer.h" />
     <ClInclude Include="Includes\JsonElement.h" />
+    <ClInclude Include="Includes\JsonHelper.h" />
     <ClInclude Include="Includes\JsonObject.h" />
     <ClInclude Include="Includes\JsonSerializer.h" />
     <ClInclude Include="Includes\JsonUtils.h" />
@@ -157,8 +158,8 @@
   <ItemGroup>
     <ClCompile Include="Samples\MainSample.cpp" />
     <ClCompile Include="Sources\JsonDeserializer.cpp" />
+    <ClCompile Include="Sources\JsonHelper.cpp" />
     <ClCompile Include="Sources\JsonSerializer.cpp" />
-    <ClCompile Include="Sources\JsonUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\test.json" />
