@@ -5,7 +5,6 @@
 
 #include "../Includes/JsonObject.h"
 #include "../Includes/StringUtils.h"
-#include "../Includes/JsonElement.h"
 
 using namespace LightJson;
 
@@ -20,3 +19,8 @@ void ReadSample()
     std::cout << newObj.getMember("email from expression")->getAsString() << std::endl;
     std::cout << newObj.getMember("array")->getAsArray()[0]->getAsString() << std::endl;
 }
+
+//int main()
+//{
+//    ReadSample();
+//}

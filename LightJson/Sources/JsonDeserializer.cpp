@@ -1,6 +1,5 @@
 #include "../Includes/JsonObject.h"
 #include "../Includes/StringUtils.h"
-#include "../Includes/JsonElement.h"
 
 using namespace LightJson;
 
@@ -11,9 +10,7 @@ JsonUtils::JsonMap JsonDeserializer::fromJson(const std::string& json)
     int depth = 0;
     size_t separatorIdx = 0;
 
-    if(json[0] != '{') {
-        throw std::runtime_error("JSON format error");
-    }
+    if(json[0] != '{') { throw std::runtime_error("JSON format error"); }
     
     for (size_t i = 1; i < json.size(); ++i)
     {
@@ -42,9 +39,12 @@ JsonUtils::JsonMap JsonDeserializer::fromJson(const std::string& json)
         
         if (depth < 0)
         {
-            const std::string string       = json.substr(separatorIdx+1, i-separatorIdx-1);
-            const JsonUtils::JsonPair pair = parseElement(string);
-            jsonObject[pair.first]         = pair.second;
+            const std::string string = json.substr(separatorIdx+1, i-separatorIdx-1);
+            if (!string.empty())
+            {
+                const JsonUtils::JsonPair pair = parseElement(string);
+                jsonObject[pair.first]         = pair.second;
+            }
             break;
         }
     }
@@ -58,9 +58,7 @@ JsonUtils::JsonPair JsonDeserializer::parseElement(const std::string& element)
     const std::string key     = StringUtils::removeQuotes(element.substr(0, separatorIdx-1));
     const std::string val     = element.substr(separatorIdx+2, element.size()-separatorIdx-2);
 
-    if(val.empty()) {
-        throw std::runtime_error("String is null or empty");
-    }
+    if(val.empty()) { throw std::runtime_error("String is null or empty"); }
     
     switch (val[0])
     {
@@ -75,7 +73,7 @@ JsonUtils::JsonPair JsonDeserializer::parseElement(const std::string& element)
         case 'f':
             return JsonUtils::makeJsonPair(key, new BooleanElement(false));
         default:
-            return JsonUtils::makeJsonPair(key, new NumberElement<double>(std::stod(val)));
+            return JsonUtils::makeJsonPair(key, new NumberElement<double>(std::stof(val)));
     }
 }
 
@@ -86,9 +84,7 @@ ArrayElement* JsonDeserializer::parseArray(const std::string& array)
     int depth = 0;
     size_t separatorIdx = 0;
 
-    if(array[0] != '[') {
-        throw std::runtime_error("Array format error");
-    }
+    if(array[0] != '[') { throw std::runtime_error("Array format error"); }
     
     for (size_t i = 1; i < array.size(); ++i)
     {
@@ -117,7 +113,7 @@ ArrayElement* JsonDeserializer::parseArray(const std::string& array)
         if (depth < 0)
         {
             const std::string string = array.substr(separatorIdx+1, i-separatorIdx-1);
-            values.emplace_back(parseArrayElement(string));
+            if (!string.empty()) values.emplace_back(parseArrayElement(string));
             break;
         }
     }
@@ -126,9 +122,7 @@ ArrayElement* JsonDeserializer::parseArray(const std::string& array)
 
 JsonElement* JsonDeserializer::parseArrayElement(const std::string& element)
 {
-    if(element.empty()) {
-        throw std::runtime_error("Array element is null or empty");
-    }
+    if(element.empty()) { throw std::runtime_error("Array element is null or empty"); }
     
     switch (element[0])
     {
@@ -143,6 +137,6 @@ JsonElement* JsonDeserializer::parseArrayElement(const std::string& element)
         case 'f':
             return new BooleanElement(false);
         default:
-            return new NumberElement<double>(std::stod(element));
+            return new NumberElement<double>(std::stof(element));
     }
 }

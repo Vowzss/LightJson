@@ -7,26 +7,25 @@
 class AnObject
 {
 public:
-    double aDoubleValue;
+    double aDoubleValue = 2.35151846165651;
 };
 
 class AnotherObject : public LightJson::JsonVirtual
 {
 public:
-    std::string aStringValue;
-    int aIntValue;
-    float aFloatValue;
+    std::string aStringValue = "AString";
+    int aIntValue = 152881;
+    float aFloatValue = 0.5151515f;
 
-    LightJson::JsonElement* Serialize()                 const override;
-    void Serialize(LightJson::JsonObject& jsonObject)   const override;  
-    void Deserialize(LightJson::JsonObject& jsonObject) override;
+    LightJson::JsonElement* Serialize() const                   override;
+    void Deserialize(const LightJson::JsonElement* jsonElement) override;
 };
 
 class TrickyObject
 {
 public:
-    long aLongValue;
-    AnObject aObject;
-    AnotherObject aOtherObject;
+    long aLongValue = 56111L;
+    AnObject aObject{};
+    AnotherObject aOtherObject{};
 };
 

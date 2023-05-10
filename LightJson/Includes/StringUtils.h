@@ -11,29 +11,11 @@ namespace LightJson
 			std::ostringstream  oss;
 			for (const char c : str) {
 				switch (c) {
-				case '\"':
-					oss << "\\\"";
-					break;
-				case '\\':
-					oss << "\\\\";
-					break;
-				case '/':
-					oss << "\\/";
-					break;
 				case '\b':
-					oss << "\\b";
-					break;
 				case '\f':
-					oss << "\\f";
-					break;
 				case '\n':
-					oss << "\\n";
-					break;
 				case '\r':
-					oss << "\\r";
-					break;
 				case '\t':
-					oss << "\\t";
 					break;
 				default:
 					oss << c;

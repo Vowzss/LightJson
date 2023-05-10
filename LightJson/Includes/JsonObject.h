@@ -3,11 +3,10 @@
 #include <stdexcept>
 
 #include "JsonDeserializer.h"
+#include "JsonElement.h"
 
 namespace LightJson
 {
-    class JsonElement;
-
     class JsonObject
     {
     private:

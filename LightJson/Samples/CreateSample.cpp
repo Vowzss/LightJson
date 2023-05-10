@@ -4,7 +4,6 @@
 #include "../Includes/JsonObject.h"
 #include "../Includes/JsonSerializer.h"
 #include "../Includes/StringUtils.h"
-#include "../Includes/JsonElement.h"
 
 using namespace LightJson;
 
@@ -50,3 +49,7 @@ void CreateSample() {
 	delete jsonObject;
 	jsonObject = nullptr;
 }
+
+//int main() {
+//	CreateSample();
+//}

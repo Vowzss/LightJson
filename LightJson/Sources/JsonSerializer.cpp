@@ -1,9 +1,9 @@
 #include <fstream>
+#include <iostream>
 
 #include "../Includes/StringUtils.h"
 #include "../Includes/JsonSerializer.h"
 #include "../Includes/JsonObject.h"
-#include "../Includes/JsonElement.h"
 
 using namespace LightJson;
 
@@ -30,6 +30,8 @@ void JsonSerializer::toFile(const JsonObject* jsonObject, const std::string& fil
     std::ofstream outfile(filename);
     outfile << toJson(jsonObject);
     outfile.close();
+
+    std::cout << "Saved JsonObject. Filename: " << filename.c_str() << std::endl;
 }
 
 std::string JsonSerializer::parseElement(const JsonElement* jsonElement)
