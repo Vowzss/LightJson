@@ -107,9 +107,7 @@ namespace LightJson
     public:
         explicit ArrayElement(JsonUtils::JsonArray array);
         ~ArrayElement() override {
-            for(const JsonElement* element : array) {
-                delete element;
-            }
+            for(const JsonElement* element : array) { delete element; }
             array.clear();
         }
     
@@ -129,9 +127,7 @@ namespace LightJson
     public:
         explicit ObjectElement(JsonUtils::JsonMap map);
         ~ObjectElement() override {
-            for(const auto& it : map) {
-                delete it.second;
-            }
+            for(const auto& it : map) { delete it.second; }
             map.clear();
         }
     
