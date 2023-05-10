@@ -4,8 +4,7 @@
 
 namespace LightJson
 {
-    template<typename T>
-    class JsonHelper
+    template<typename T> class JsonHelper
     {
     public:
         static JsonElement* Serialize(const T& value);

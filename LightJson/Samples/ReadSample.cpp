@@ -10,7 +10,7 @@ using namespace LightJson;
 
 void ReadSample()
 {
-    const std::ifstream fs("Resources/Example.json");
+    const std::ifstream fs("Resources/ReadSample.json");
     std::stringstream ss;
     ss << fs.rdbuf();
 	
